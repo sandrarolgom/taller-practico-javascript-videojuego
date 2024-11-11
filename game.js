@@ -1,18 +1,13 @@
 const canvas = document.querySelector('#game');
 const game = canvas.getContext('2d');
 
-
-window.addEventListener('load', setCanvasSize);
-//evento para cuando se hace cambio del tamaño de la pantalla 
-window.addEventListener('resize', setCanvasSize);
-
-//pasamos las variables a variables globales
 let canvasSize;
 let elementSize;
 
+window.addEventListener('load', setCanvasSize);
+window.addEventListener('resize', setCanvasSize);
 
-//funcion para separar el código
-function setCanvasSize(ev) {
+function setCanvasSize() {
     
     if (window.innerHeight > window.innerWidth){
         canvasSize = window.innerWidth * 0.8;
@@ -27,13 +22,18 @@ function setCanvasSize(ev) {
     startGame();
 };
 
-//función de renderizado de mapas
 function startGame(){
-    
-    //render de nuestro mapa
+
     game.font = elementSize + "px Verdana";
     game.textAlign = 'end';
-    for (let i = 1; i <= 10; i++){
-        game.fillText(emojis['X'], elementSize, elementSize * i);
+
+    const map = maps[0];
+    const mapRows = map.trim().split('\n');
+    const mapRowCols = mapRows.map(row => row.trim().split(''));
+    console.log({map, mapRows, mapRowCols});
+
+    for (let row = 1; row <= 10; row++){
+        for (let col = 1 ; col <= 10; col++)
+        game.fillText(emojis[mapRowCols[row-1][col-1]], elementSize * col, elementSize * row);
     };
 };
